@@ -2,13 +2,14 @@
   <b-container fluid id="app">
     <ProductDataLoader v-on:change="productData = $event" />
     <div v-if="productData">
-      {{productData.description}}
+      <ProductPreview :product="productData" />
     </div>
   </b-container>
 </template>
 
 <script>
 import ProductDataLoader from './components/ProductDataLoader'
+import ProductPreview from './components/ProductPreview'
 
 export default {
   name: 'App',
@@ -16,7 +17,8 @@ export default {
     productData: null
   }),
   components: {
-    ProductDataLoader
+    ProductDataLoader,
+    ProductPreview
   }
 }
 </script>
