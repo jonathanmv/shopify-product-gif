@@ -6,7 +6,7 @@
     <b-col v-if="product">
       <h2>{{product.title}}</h2>
       <p v-html="product.description"></p>
-      <b-button type="submit" variant="primary" @click="$emit('downloadGIF')">
+      <b-button type="submit" variant="primary" @click="downloadGIF">
         Download
       </b-button>
     </b-col>
@@ -14,7 +14,24 @@
 </template>
 
 <script>
-import GIFMaker from '../helper/gifMaker'
+import GIFMaker from '@/helper/gifMaker'
+/* global CCapture:true */
+import '@/lib/CCapture.all.min.js'
+
+const capturerDefaultOptions = {
+  verbose: false,
+  display: true,
+  // framerate: 60,
+  // motionBlurFrames: ( 960 / 60 ),
+  framerate: 1,
+  motionBlurFrames: 0,
+  quality: 99,
+  format: 'gif',
+  timeLimit: 3,
+  frameLimit: 0,
+  autoSaveTime: 0,
+  workersPath: 'static/js/'
+}
 
 export default {
   name: 'ProductPreview',
@@ -39,10 +56,21 @@ export default {
       const maker = new GIFMaker({ startTime, product, canvas })
       maker.update()
       this.maker = maker
+    },
+    downloadGIF () {
+      const timeLimit = this.product.images.length
+      const options = Object.assign({}, capturerDefaultOptions, { timeLimit })
+      const capturer = CCapture(options)
+      const startTime = performance.now()
+      capturer.start()
+      this.maker.startTime = startTime
+      this.maker.capturer = capturer
     }
   },
   mounted () {
     this.previewGIF()
+  },
+  created () {
   }
 }
 </script>
