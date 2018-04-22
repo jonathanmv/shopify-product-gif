@@ -2,7 +2,7 @@
   "name": "vue-test",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "Jonathan Morales Vélez <jonathan@themidgame.com>",
+  "author": "Jonathan Morales Vélez <jonathanmv@outlook.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -10,6 +10,10 @@
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
     "deploy": "aws s3 sync dist/ s3://autenti.ca"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jonathanmv/shopify-product-gif.git"
   },
   "dependencies": {
     "bootstrap-vue": "2.0.0-rc.8",
