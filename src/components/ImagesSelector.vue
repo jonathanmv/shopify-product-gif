@@ -41,6 +41,7 @@ export default {
   watch: {
     images () {
       this.fillImageObjects()
+      this.$emit('change', this.imagesList)
     }
   }
 }
