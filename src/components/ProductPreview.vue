@@ -1,26 +1,39 @@
 <template lang="html">
-  <b-row>
-    <b-col>
-      <canvas ref="gifPreview" height="800" width="800" style="height:400px;width:400px;"></canvas>
-    </b-col>
-    <b-col v-if="product">
-      <h2>{{product.title}}</h2>
-      <p v-html="product.description"></p>
-      <b-button type="submit" variant="primary" @click="downloadGIF">
-        Download
-      </b-button>
-    </b-col>
-  </b-row>
+  <div class="ProductPreview">
+    <b-row v-if="product">
+      <b-col>
+        <h4>Product Info</h4>
+        <p>
+          <b>{{product.title}} :</b> {{product.description.slice(0, 100)}}...
+        </p>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col v-if="product">
+        <h4>Select Images</h4>
+        <p>Selected images will be included in the GIF. Each image will be shown for 1 second.</p>
+        <ImagesSelector :images="product.images" @change="gifImages = $event" />
+        <b-button type="submit" variant="primary" @click="downloadGIF">
+          Download
+        </b-button>
+      </b-col>
+      <b-col>
+        <h4>Preview</h4>
+        <canvas ref="gifPreview" height="800" width="800" style="height:400px;width:400px;"></canvas>
+      </b-col>
+    </b-row>
+</div>
 </template>
 
 <script>
-import GIFMaker from '@/helper/gifMaker'
 /* global CCapture:true */
 import '@/lib/CCapture.all.min.js'
+import GIFMaker from '@/helper/gifMaker'
+import ImagesSelector from '@/components/ImagesSelector'
 
 const capturerDefaultOptions = {
   verbose: false,
-  display: true,
+  display: false,
   // framerate: 60,
   // motionBlurFrames: ( 960 / 60 ),
   framerate: 1,
@@ -36,23 +49,30 @@ const capturerDefaultOptions = {
 export default {
   name: 'ProductPreview',
   props: ['product'],
+  components: { ImagesSelector },
   data: () => ({
-    maker: null
+    maker: null,
+    gifImages: []
   }),
   watch: {
     product () {
+      this.previewGIF()
+    },
+    gifImages () {
       this.previewGIF()
     }
   },
   methods: {
     previewGIF () {
-      const { product } = this
-      if (!product) {
+      const { product: originalProduct } = this
+      if (!originalProduct) {
         return
       }
 
+      const images = this.gifImages.length ? this.gifImages : originalProduct.images
       const startTime = new Date().getTime()
       const canvas = this.$refs.gifPreview
+      const product = Object.assign({}, originalProduct, { images })
       const maker = new GIFMaker({ startTime, product, canvas })
       maker.update()
       this.maker = maker
@@ -69,8 +89,6 @@ export default {
   },
   mounted () {
     this.previewGIF()
-  },
-  created () {
   }
 }
 </script>

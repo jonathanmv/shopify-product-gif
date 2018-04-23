@@ -16,10 +16,10 @@ export default class GIFMaker {
   }
 
   loadProductImages () {
-    const { canvas, product } = this
+    const { product } = this
     this.images = product.images.map(src => {
-      const image = new Image(canvas.width, canvas.height)
-      image.src = `https:${src}`
+      const image = new Image()
+      image.src = src
       image.crossOrigin = 'Anonymous'
       return image
     })
@@ -40,7 +40,9 @@ export default class GIFMaker {
     const index = Math.floor(diffInSeconds % numberOfImages)
     const image = images[index]
     context.save()
-    context.drawImage(image, 0, 0)
+    const canvasImageRatio = canvas.width / image.naturalWidth
+    const imageHeight = image.naturalHeight * canvasImageRatio
+    context.drawImage(image, 0, 0, canvas.width, imageHeight)
     context.font = font
     context.fillStyle = titleFillStyle
     context.textAlign = 'center'

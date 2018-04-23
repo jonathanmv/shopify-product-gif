@@ -1,7 +1,7 @@
 <template>
   <b-container fluid id="app">
     <b-alert show>This project is under development</b-alert>
-    <ProductDataLoader v-on:change="productData = $event" />
+    <ProductDataLoader @change="productData = $event" />
     <div v-if="productData">
       <ProductPreview :product="productData" />
     </div>
