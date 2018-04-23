@@ -6,6 +6,8 @@
                 :img-src="image.src"
                 img-alt="Image"
                 img-top
+                class="mb-3"
+                style="width: 150px; min-width: 150px; max-width: 150px;"
                 :key="index" @click="imageClicked(image, $event)">
           <div slot="footer">
             <b-button variant="outline-primary" @click="moveTo(index, -1)" v-if="index" class="card-link float-left">&lt;</b-button>
