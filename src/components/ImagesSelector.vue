@@ -6,7 +6,11 @@
                 :img-src="image.src"
                 img-alt="Image"
                 img-top
-                :key="index" @click="imageClicked(image)">
+                :key="index" @click="imageClicked(image, $event)">
+          <div slot="footer">
+            <b-button variant="outline-primary" @click="moveTo(index, -1)" v-if="index" class="card-link float-left">&lt;</b-button>
+            <b-button variant="outline-primary" @click="moveTo(index, 1)" v-if="(index + 1) < imageObjects.length" class="card-link float-right">&gt;</b-button>
+          </div>
         </b-card>
     </b-card-group>
   </div>
@@ -23,8 +27,18 @@ export default {
     fillImageObjects () {
       this.imageObjects = this.images.map(src => ({ src, selected: true }))
     },
-    imageClicked (image) {
-      image.selected = !image.selected
+    imageClicked (image, event) {
+      if (event.target.tagName.toLowerCase() === 'img') {
+        image.selected = !image.selected
+        this.$emit('change', this.imagesList)
+      }
+    },
+    moveTo (index, direction) {
+      const image = this.imageObjects[index]
+      const swapIndex = index + direction
+      const swapImage = this.imageObjects[swapIndex]
+      this.imageObjects.splice(index, 1, swapImage)
+      this.imageObjects.splice(swapIndex, 1, image)
       this.$emit('change', this.imagesList)
     }
   },
