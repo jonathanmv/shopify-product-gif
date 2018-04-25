@@ -19,6 +19,9 @@
       </b-col>
       <b-col>
         <h4>Preview</h4>
+        <b-alert :show="shouldSelectImages" variant="warning">
+          Please select at least one image
+        </b-alert>
         <canvas ref="gifPreview" height="800" width="800" style="height:400px;width:400px;"></canvas>
       </b-col>
     </b-row>
@@ -54,6 +57,11 @@ export default {
     maker: null,
     gifImages: []
   }),
+  computed: {
+    shouldSelectImages () {
+      return this.product && !this.gifImages.length
+    }
+  },
   watch: {
     product () {
       this.previewGIF()
@@ -69,17 +77,17 @@ export default {
         return
       }
 
-      const images = this.gifImages.length ? this.gifImages : originalProduct.images
+      const images = this.gifImages
       const startTime = new Date().getTime()
       const canvas = this.$refs.gifPreview
-      const product = Object.assign({}, originalProduct, { images })
+      const product = { ...originalProduct, images }
       const maker = new GIFMaker({ startTime, product, canvas })
       maker.update()
       this.maker = maker
     },
     downloadGIF () {
       const timeLimit = this.product.images.length
-      const options = Object.assign({}, capturerDefaultOptions, { timeLimit })
+      const options = { ...capturerDefaultOptions, timeLimit }
       const capturer = CCapture(options)
       const startTime = performance.now()
       capturer.start()
@@ -88,6 +96,9 @@ export default {
     }
   },
   mounted () {
+    if (this.product) {
+      this.gifImages = this.product.images
+    }
     this.previewGIF()
   }
 }

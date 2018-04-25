@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="ImagesSelector">
-    <b-button variant="link" @click="fillImageObjects(false)">Select none</b-button>
-    <b-button variant="link" @click="fillImageObjects(true)">Select all</b-button>
+    <b-button variant="link" @click="selectAll(false)">Select none</b-button>
+    <b-button variant="link" @click="selectAll(true)">Select all</b-button>
     <hr />
     <b-card-group deck>
         <b-card v-for="(image, index) in imageObjects"
@@ -44,6 +44,10 @@ export default {
       const swapImage = this.imageObjects[swapIndex]
       this.imageObjects.splice(index, 1, swapImage)
       this.imageObjects.splice(swapIndex, 1, image)
+      this.$emit('change', this.imagesList)
+    },
+    selectAll (selected) {
+      this.imageObjects = this.imageObjects.map(object => ({ ...object, selected }))
       this.$emit('change', this.imagesList)
     }
   },

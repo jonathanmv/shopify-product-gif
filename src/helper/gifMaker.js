@@ -35,6 +35,9 @@ export default class GIFMaker {
     context.fillStyle = '#fff'
     context.fillRect(0, 0, canvas.width, canvas.height)
     const numberOfImages = images.length
+    if (!numberOfImages) {
+      return
+    }
     const currentTime = new Date().getTime()
     const diffInSeconds = (currentTime - startTime) / 1000
     const index = Math.floor(diffInSeconds % numberOfImages)
