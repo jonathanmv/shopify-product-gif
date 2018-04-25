@@ -1,5 +1,8 @@
 <template lang="html">
   <div class="ImagesSelector">
+    <b-button variant="link" @click="fillImageObjects(false)">Select none</b-button>
+    <b-button variant="link" @click="fillImageObjects(true)">Select all</b-button>
+    <hr />
     <b-card-group deck>
         <b-card v-for="(image, index) in imageObjects"
                 v-bind:border-variant="image.selected ? 'primary' : 'default'"
@@ -26,8 +29,8 @@ export default {
     imageObjects: []
   }),
   methods: {
-    fillImageObjects () {
-      this.imageObjects = this.images.map(src => ({ src, selected: true }))
+    fillImageObjects (selected = true) {
+      this.imageObjects = this.images.map(src => ({ src, selected }))
     },
     imageClicked (image, event) {
       if (event.target.tagName.toLowerCase() === 'img') {
