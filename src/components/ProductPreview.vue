@@ -22,6 +22,16 @@
         <b-alert :show="shouldSelectImages" variant="warning">
           Please select at least one image
         </b-alert>
+        <div v-if="!shouldSelectImages">
+          <div>
+            <h4>Product Name Style</h4>
+            <TextPropertiesEditor :properties.sync="titleTextProperties" />
+          </div>
+          <div>
+            <h4>Product Price Style</h4>
+            <TextPropertiesEditor :properties.sync="priceTextProperties" />
+          </div>
+        </div>
         <canvas ref="gifPreview" height="800" width="800" style="height:400px;width:400px;"></canvas>
       </b-col>
     </b-row>
@@ -33,6 +43,7 @@
 import '@/lib/CCapture.all.min.js'
 import GIFMaker from '@/helper/gifMaker'
 import ImagesSelector from '@/components/ImagesSelector'
+import TextPropertiesEditor from '@/components/TextPropertiesEditor'
 
 const capturerDefaultOptions = {
   verbose: false,
@@ -52,10 +63,20 @@ const capturerDefaultOptions = {
 export default {
   name: 'ProductPreview',
   props: ['product'],
-  components: { ImagesSelector },
+  components: { ImagesSelector, TextPropertiesEditor },
   data: () => ({
     maker: null,
-    gifImages: []
+    gifImages: [],
+    titleTextProperties: {
+      relativeY: 1, // Bigger number closer to the bottom
+      color: '#F00',
+      relativeSize: 3 // Bigger number larger size
+    },
+    priceTextProperties: {
+      relativeY: 10, // Bigger number closer to the bottom
+      color: '#0F0',
+      relativeSize: 1 // Bigger number larger size
+    }
   }),
   computed: {
     shouldSelectImages () {
@@ -63,16 +84,26 @@ export default {
     }
   },
   watch: {
-    product () {
+    product ({ title }) {
       this.previewGIF()
     },
     gifImages () {
       this.previewGIF()
+    },
+    titleTextProperties (props) {
+      this.maker.titleTextProperties = props
+    },
+    priceTextProperties (props) {
+      this.maker.priceTextProperties = props
     }
   },
   methods: {
     previewGIF () {
-      const { product: originalProduct } = this
+      const {
+        product: originalProduct,
+        titleTextProperties,
+        priceTextProperties
+      } = this
       if (!originalProduct) {
         return
       }
@@ -81,7 +112,13 @@ export default {
       const startTime = new Date().getTime()
       const canvas = this.$refs.gifPreview
       const product = { ...originalProduct, images }
-      const maker = new GIFMaker({ startTime, product, canvas })
+      const maker = new GIFMaker({
+        startTime,
+        product,
+        canvas,
+        titleTextProperties,
+        priceTextProperties
+      })
       maker.update()
       this.maker = maker
     },
