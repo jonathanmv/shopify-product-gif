@@ -68,14 +68,14 @@ export default {
     maker: null,
     gifImages: [],
     titleTextProperties: {
-      relativeY: 1, // Bigger number closer to the bottom
+      relativeY: 3, // Bigger number closer to the bottom
       color: '#F00',
-      relativeSize: 3 // Bigger number larger size
+      relativeSize: 2 // Bigger number larger size
     },
     priceTextProperties: {
-      relativeY: 10, // Bigger number closer to the bottom
+      relativeY: 8, // Bigger number closer to the bottom
       color: '#0F0',
-      relativeSize: 1 // Bigger number larger size
+      relativeSize: 3 // Bigger number larger size
     }
   }),
   computed: {
@@ -89,12 +89,6 @@ export default {
     },
     gifImages () {
       this.previewGIF()
-    },
-    titleTextProperties (props) {
-      this.maker.titleTextProperties = props
-    },
-    priceTextProperties (props) {
-      this.maker.priceTextProperties = props
     }
   },
   methods: {

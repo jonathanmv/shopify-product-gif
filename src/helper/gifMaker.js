@@ -79,7 +79,7 @@ export default class GIFMaker {
 
   getFontFromRelativeSize (relativeSize = 1) {
     const { width } = this.canvas
-    const unitFontSize = width / 10
+    const unitFontSize = width / 20
     const size = unitFontSize * relativeSize
     return `${size}px ${defaultFontFamily}`
   }
@@ -97,13 +97,13 @@ export default class GIFMaker {
 
     // Draw Title
     context.font = this.getFontFromRelativeSize(titleTextProperties.relativeSize)
-    context.fillStyle = titleTextProperties.color
+    context.fillStyle = titleTextProperties.color.hex
     let y = this.getYFromRelativeY(titleTextProperties.relativeY)
     context.fillText(title, canvas.width / 2, y)
 
     // Draw Price
     context.font = this.getFontFromRelativeSize(priceTextProperties.relativeSize)
-    context.fillStyle = priceTextProperties.color
+    context.fillStyle = priceTextProperties.color.hex
     y = this.getYFromRelativeY(priceTextProperties.relativeY)
     context.fillText(`$${price / 100}`, canvas.width / 2, y)
   }
