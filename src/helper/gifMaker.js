@@ -1,3 +1,5 @@
+const defaultFontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+
 export default class GIFMaker {
   constructor (options) {
     const {
@@ -14,17 +16,18 @@ export default class GIFMaker {
     this.canvas = canvas
     this.context = canvas.getContext('2d')
     this.capturer = capturer
+    this.startTime = startTime
+    this.product = product
+    this.titleTextProperties = titleTextProperties
+    this.priceTextProperties = priceTextProperties
+
     this.update = this.update.bind(this)
     this.draw = this.draw.bind(this)
     this.loadProductImages = this.loadProductImages.bind(this)
     this.drawCurrentImage = this.drawCurrentImage.bind(this)
     this.drawTexts = this.drawTexts.bind(this)
     this.getYFromRelativeY = this.getYFromRelativeY.bind(this)
-    this.startTime = startTime
-    this.product = product
-    this.titleTextProperties = titleTextProperties
-    this.priceTextProperties = priceTextProperties
-    this.font = `${canvas.width / 10}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`
+    this.getFontFromRelativeSize = this.getFontFromRelativeSize.bind(this)
 
     this.loadProductImages()
   }
@@ -74,26 +77,35 @@ export default class GIFMaker {
     return Math.min(height * 0.95, adjustedTitleY)
   }
 
+  getFontFromRelativeSize (relativeSize = 1) {
+    const { width } = this.canvas
+    const unitFontSize = width / 10
+    const size = unitFontSize * relativeSize
+    return `${size}px ${defaultFontFamily}`
+  }
+
   drawTexts () {
     const {
       context,
       canvas,
-      font,
       titleTextProperties = {},
       priceTextProperties = {},
       product
     } = this
     const { title, price } = product
-    // Draw Title
-    context.font = font
-    context.fillStyle = titleTextProperties.color
     context.textAlign = 'center'
+
+    // Draw Title
+    context.font = this.getFontFromRelativeSize(titleTextProperties.relativeSize)
+    context.fillStyle = titleTextProperties.color
     let y = this.getYFromRelativeY(titleTextProperties.relativeY)
-    context.fillText(title, canvas.width / 2, y, canvas.width * 0.94)
+    context.fillText(title, canvas.width / 2, y)
+
     // Draw Price
+    context.font = this.getFontFromRelativeSize(priceTextProperties.relativeSize)
     context.fillStyle = priceTextProperties.color
     y = this.getYFromRelativeY(priceTextProperties.relativeY)
-    context.fillText(`$${price / 100}`, canvas.width / 2, y, canvas.width * 0.94)
+    context.fillText(`$${price / 100}`, canvas.width / 2, y)
   }
 
   update () {

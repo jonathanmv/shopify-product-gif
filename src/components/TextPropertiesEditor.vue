@@ -1,6 +1,15 @@
 <template lang="html">
-  <div>
-    <Slider v-model="properties.relativeY" :min="1" :max="10" />
+  <div class="my-3">
+    <b-row>
+      <b-col>
+        <b>Position</b>
+        <Slider v-model="properties.relativeY" :min="1" :max="10" :tooltip="false" />
+      </b-col>
+      <b-col>
+        <b>Size</b>
+        <Slider v-model="properties.relativeSize" :min="1" :max="5" :tooltip="false" />
+      </b-col>
+    </b-row>
   </div>
 </template>
 
