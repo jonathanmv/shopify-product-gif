@@ -4,7 +4,7 @@
       <b-col>
         <h4>Product Info</h4>
         <p>
-          <b>{{product.title}} :</b> {{product.description.slice(0, 100)}}...
+          <b>{{product.title}} :</b> {{productDescription}}
         </p>
       </b-col>
     </b-row>
@@ -45,6 +45,7 @@ import '@/lib/CCapture.all.min.js'
 import GIFMaker from '@/helper/gifMaker'
 import ImagesSelector from '@/components/ImagesSelector'
 import TextPropertiesEditor from '@/components/TextPropertiesEditor'
+import sanitize from 'sanitize-html'
 
 const capturerDefaultOptions = {
   verbose: false,
@@ -82,6 +83,16 @@ export default {
   computed: {
     shouldSelectImages () {
       return this.product && !this.gifImages.length
+    },
+    productDescription () {
+      const { description } = this.product || {}
+      if (!description) {
+        return ''
+      }
+
+      const cleanDescription = sanitize(description, { allowedTags: [] })
+      const ellipsis = cleanDescription.length > 100 ? '...' : ''
+      return cleanDescription.slice(0, 100) + ellipsis
     }
   },
   watch: {
