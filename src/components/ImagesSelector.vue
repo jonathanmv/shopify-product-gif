@@ -71,4 +71,7 @@ export default {
 </script>
 
 <style lang="css">
+.ImagesSelector .card-img-top {
+  cursor: pointer;
+}
 </style>

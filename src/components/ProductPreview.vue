@@ -69,7 +69,7 @@ export default {
     gifImages: [],
     titleTextProperties: {
       relativeY: 3, // Bigger number closer to the bottom
-      color: '#F00',
+      color: '#FF0000',
       relativeSize: 2 // Bigger number larger size
     },
     priceTextProperties: {

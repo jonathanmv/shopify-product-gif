@@ -22,12 +22,6 @@ export default class GIFMaker {
     this.priceTextProperties = priceTextProperties
 
     this.update = this.update.bind(this)
-    this.draw = this.draw.bind(this)
-    this.loadProductImages = this.loadProductImages.bind(this)
-    this.drawCurrentImage = this.drawCurrentImage.bind(this)
-    this.drawTexts = this.drawTexts.bind(this)
-    this.getYFromRelativeY = this.getYFromRelativeY.bind(this)
-    this.getFontFromRelativeSize = this.getFontFromRelativeSize.bind(this)
 
     this.loadProductImages()
   }
@@ -84,6 +78,10 @@ export default class GIFMaker {
     return `${size}px ${defaultFontFamily}`
   }
 
+  getColor (color) {
+    return typeof color === 'string' ? color : color.hex
+  }
+
   drawTexts () {
     const {
       context,
@@ -97,13 +95,13 @@ export default class GIFMaker {
 
     // Draw Title
     context.font = this.getFontFromRelativeSize(titleTextProperties.relativeSize)
-    context.fillStyle = titleTextProperties.color.hex
+    context.fillStyle = this.getColor(titleTextProperties.color)
     let y = this.getYFromRelativeY(titleTextProperties.relativeY)
     context.fillText(title, canvas.width / 2, y)
 
     // Draw Price
     context.font = this.getFontFromRelativeSize(priceTextProperties.relativeSize)
-    context.fillStyle = priceTextProperties.color.hex
+    context.fillStyle = this.getColor(priceTextProperties.color)
     y = this.getYFromRelativeY(priceTextProperties.relativeY)
     context.fillText(`$${price / 100}`, canvas.width / 2, y)
   }

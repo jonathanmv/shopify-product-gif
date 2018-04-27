@@ -12,8 +12,11 @@
     </b-row>
     <b-row>
       <b-col>
-        <div class="color-slider">
-          <ColorSlider v-model="properties.color" />
+        <b>Color</b>
+        <div class="px-2">
+          <div class="color-slider">
+            <ColorSlider v-model="properties.color" />
+          </div>
         </div>
       </b-col>
     </b-row>
@@ -43,12 +46,7 @@ export default {
   // color: '#F00',
   // relativeSize: 3 // Bigger number larger size
   props: ['properties'],
-  components: { NumericSlider, ColorSlider },
-  methods: {
-    onColorChange (value) {
-      console.log(value)
-    }
-  }
+  components: { NumericSlider, ColorSlider }
 }
 </script>
 
@@ -56,5 +54,13 @@ export default {
 .color-slider {
   height: 10px;
   position: relative;
+}
+.color-slider .vc-hue-picker {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  transform: translate(-6px, -4px);
+  background-color: white;
+  box-shadow: 0.5px 0.5px 2px 1px rgba(0, 0, 0, 0.32);
 }
 </style>
