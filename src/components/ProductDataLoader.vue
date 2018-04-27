@@ -36,7 +36,9 @@ export default {
     async onSubmit () {
       const { productUrl } = this
       if (productUrl && productUrl.length) {
-        const data = await fetch(productUrl + '.js', { mode: 'cors' })
+        const url = new URL(productUrl)
+        const fetchUrl = `${url.origin}${url.pathname}.js`
+        const data = await fetch(fetchUrl, { mode: 'cors' })
           .then(response => response.json())
           // .catch(error => null)
         if (data) {
