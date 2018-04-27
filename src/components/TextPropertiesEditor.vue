@@ -9,11 +9,9 @@
         <b>Size</b>
         <NumericSlider v-model="properties.relativeSize" :min="1" :max="5" :tooltip="false" />
       </b-col>
-    </b-row>
-    <b-row>
       <b-col>
         <b>Color</b>
-        <div class="px-2">
+        <div class="p-1">
           <div class="color-slider">
             <ColorSlider v-model="properties.color" />
           </div>
@@ -52,14 +50,15 @@ export default {
 
 <style lang="css">
 .color-slider {
-  height: 10px;
+  height: 6px;
   position: relative;
+  margin: 4px;
 }
 .color-slider .vc-hue-picker {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  transform: translate(-6px, -4px);
+  transform: translate(-8px, -6px);
   background-color: white;
   box-shadow: 0.5px 0.5px 2px 1px rgba(0, 0, 0, 0.32);
 }

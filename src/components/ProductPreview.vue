@@ -13,12 +13,8 @@
         <h4>Select Images</h4>
         <p>Selected images will be included in the GIF. Each image will be shown for 1 second.</p>
         <ImagesSelector :images="product.images" @change="gifImages = $event" />
-        <b-button type="submit" variant="primary" @click="downloadGIF">
-          Download
-        </b-button>
       </b-col>
       <b-col>
-        <h4>Preview</h4>
         <b-alert :show="shouldSelectImages" variant="warning">
           Please select at least one image
         </b-alert>
@@ -31,6 +27,11 @@
             <h4>Product Price Style</h4>
             <TextPropertiesEditor :properties.sync="priceTextProperties" />
           </div>
+        </div>
+        <div v-if="!shouldSelectImages">
+          <b-button class="float-right" type="submit" variant="primary" @click="downloadGIF">
+            Download
+          </b-button>
         </div>
         <canvas ref="gifPreview" height="800" width="800" style="height:400px;width:400px;"></canvas>
       </b-col>
