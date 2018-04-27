@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="ImagesSelector">
     <b-button variant="link" @click="selectAll(false)">Select none</b-button>
-    <b-button variant="link" @click="selectAll(true)">Select all</b-button>
+    <b-button variant="link" @click="selectAll(true)">Select all ({{imageObjects.length}})</b-button>
     <hr />
     <div class="deck">
       <b-card-group deck>

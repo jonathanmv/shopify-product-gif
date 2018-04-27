@@ -66,7 +66,11 @@ export default class GIFMaker {
     const imageHeight = isWider ? image.naturalHeight * canvasImageRatio : image.naturalHeight
     const x = isWider ? 0 : (canvas.width / 2) - (imageWidth / 2)
     const y = isWider ? 0 : (canvas.height / 2) - (imageHeight / 2)
-    context.drawImage(image, x, y, imageWidth, imageHeight)
+    try {
+      context.drawImage(image, x, y, imageWidth, imageHeight)
+    } catch (error) {
+      console.log(error, image)
+    }
   }
 
   getYFromRelativeY (relativeY = 1) {
