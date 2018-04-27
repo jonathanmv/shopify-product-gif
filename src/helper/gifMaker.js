@@ -60,9 +60,13 @@ export default class GIFMaker {
     const diffInSeconds = (currentTime - startTime) / 1000
     const index = Math.floor(diffInSeconds % numberOfImages)
     const image = images[index]
+    const isWider = canvas.width < image.naturalWidth
     const canvasImageRatio = canvas.width / image.naturalWidth
-    const imageHeight = image.naturalHeight * canvasImageRatio
-    context.drawImage(image, 0, 0, canvas.width, imageHeight)
+    const imageWidth = isWider ? canvas.width : image.naturalWidth
+    const imageHeight = isWider ? image.naturalHeight * canvasImageRatio : image.naturalHeight
+    const x = isWider ? 0 : (canvas.width / 2) - (imageWidth / 2)
+    const y = isWider ? 0 : (canvas.height / 2) - (imageHeight / 2)
+    context.drawImage(image, x, y, imageWidth, imageHeight)
   }
 
   getYFromRelativeY (relativeY = 1) {
