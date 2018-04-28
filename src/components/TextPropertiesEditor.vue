@@ -7,7 +7,7 @@
       </b-col>
       <b-col>
         <b>Size</b>
-        <NumericSlider v-model="properties.relativeSize" :min="1" :max="5" :tooltip="false" />
+        <NumericSlider v-model="properties.relativeSize" :min="0" :max="5" :tooltip="false" />
       </b-col>
       <b-col>
         <b>Color</b>
